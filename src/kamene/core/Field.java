@@ -18,6 +18,7 @@ import kamene.core.GameState;
 /**
  * Field represents playing field and game logic.
  */
+@SuppressWarnings("serial")
 public class Field implements Serializable {
 	/**
 	 * Time of playing from saved game
@@ -103,9 +104,6 @@ public class Field implements Serializable {
 			Collections.shuffle(createRandomNumber);
 			String[] randomNumbers = createRandomNumber.toArray(new String[createRandomNumber.size()]);
 			int count = 0;
-//			randomNumbers[getColumnCount() * getRowCount() - 1] = Integer
-//					.toString(getColumnCount() * getRowCount() - 1);
-//			randomNumbers[getColumnCount() * getRowCount() - 2] = " ";
 			for (int row = 0; row < getRowCount(); row++) {
 				for (int column = 0; column < getColumnCount(); column++) {
 					tiles[row][column] = new Number(randomNumbers[count]);
@@ -180,7 +178,7 @@ public class Field implements Serializable {
 			}
 			break;
 		default:
-			throw new WrongInput("Wrong Input: w|up - s|down - a|left - d|right - save - exit ");
+			throw new WrongInput("Wrong Input: w|up - s|down - a|left - d|right - save - e|exit ");
 		}
 		if (isSolved()) {
 			state = GameState.SOLVED;

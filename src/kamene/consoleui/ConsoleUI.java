@@ -49,7 +49,9 @@ public class ConsoleUI implements UserInterface {
 		return (int) (System.currentTimeMillis() - startMillis) / 1000;
 	}
 
-
+	/**
+	 * provides game interface - waiting for your output, checking game state, communicate with database and starting new game after your win
+	 */
 	public void newGameStarted(Field field) {
 		this.field = field;
 		setStartMillis();
@@ -105,12 +107,13 @@ public class ConsoleUI implements UserInterface {
 		}
 	}
 /**
- * read input and call function move or end game with or without save
+ * read input and call function move, new game or end game with or without save
  */
 	private void processInput() {
 		String action = readLine();
 		action = action.toUpperCase();
 		switch (action) {
+		case "N":
 		case "NEW":
 			newGameStarted(new Field(4, 4));
 			break;
@@ -118,6 +121,7 @@ public class ConsoleUI implements UserInterface {
 			field.saveGame();
 			System.out.println("you saved end game");
 			System.exit(0);
+		case "E":
 		case "EXIT":
 			System.out.println("you end game");
 			System.exit(0);
@@ -131,8 +135,11 @@ public class ConsoleUI implements UserInterface {
 		}
 	}
 
-	@Override
+	/**
+	 * function for showing game field with instructions
+	 */
 	public void update() {
+		String[] message ={"up|w down|s e|exit","left|a rigth|d save new|n"};
 		StringBuilder sb = new StringBuilder();
 		Formatter formatter = new Formatter(sb);
 		formatter.format("%s", "      Time:");
@@ -141,6 +148,14 @@ public class ConsoleUI implements UserInterface {
 		for (int row = 0; row < field.getRowCount(); row++) {
 			for (int column = 0; column < field.getColumnCount(); column++) {
 				formatter.format("%4s", field.getTiles(row, column));
+			}
+			if(row==0){
+				formatter.format("%5s", " ");
+				formatter.format("%10s", message[0]);
+			}
+			if(row==1){
+				formatter.format("%5s", " ");
+				formatter.format("%10s", message[1]);
 			}
 			formatter.format("%4s", "\n");
 		}
